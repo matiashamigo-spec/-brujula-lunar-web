@@ -1,0 +1,30 @@
+:root {
+  --color-bg: #0a0a1a;
+  --color-luna: #ffe066;
+  --color-azul: #aaccff;
+  --color-texto: #ffffff;
+  --color-dim: #666899;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  background: var(--color-bg);
+  color: var(--color-texto);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}

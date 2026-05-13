@@ -4,6 +4,9 @@ export type { OrientacionDispositivo }
 type Listener = (o: OrientacionDispositivo) => void
 
 let listener: Listener | null = null
+let declinacion = 0 // corrección magnética en grados, se setea desde Camara.tsx
+
+export function setDeclinacion(d: number) { declinacion = d }
 
 // --- Suavizado EMA ---
 // Evita que el indicador salte con el ruido del sensor.
@@ -14,7 +17,9 @@ let smoothHy    = 0
 let smoothPitch = 0
 
 function suavizar(heading: number, pitch: number): OrientacionDispositivo {
-  const hRad = heading * Math.PI / 180
+  // Aplicar corrección de declinación magnética antes de suavizar
+  const corrected = norm360(heading + declinacion)
+  const hRad = corrected * Math.PI / 180
   smoothHx    = SMOOTH * Math.cos(hRad) + (1 - SMOOTH) * smoothHx
   smoothHy    = SMOOTH * Math.sin(hRad) + (1 - SMOOTH) * smoothHy
   smoothPitch = SMOOTH * pitch          + (1 - SMOOTH) * smoothPitch

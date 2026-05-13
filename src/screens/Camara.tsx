@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { calcularPosicionLunar } from '../modules/luna'
 import type { PosicionLunar } from '../modules/luna'
 import { obtenerUbicacion } from '../modules/geolocalizacion'
-import { iniciarSensores } from '../modules/sensores'
+import { iniciarSensores, setDeclinacion } from '../modules/sensores'
 import type { OrientacionDispositivo } from '../modules/sensores'
+import { calcularDeclinacion } from '../modules/declinacion'
 import { calcularAlineacion } from '../modules/alineacion'
 import type { ResultadoAlineacion } from '../modules/alineacion'
 import BrujulaOverlay from '../components/BrujulaOverlay'
@@ -36,6 +37,9 @@ export default function Camara({ onAlineado, onVolver }: Props) {
     async function initLocation() {
       try {
         const coords = await obtenerUbicacion()
+        const decl = calcularDeclinacion(coords.latitud, coords.longitud)
+        setDeclinacion(decl)
+        console.info(`[brujula] Declinación magnética: ${decl.toFixed(2)}°`)
         const pos = calcularPosicionLunar(coords.latitud, coords.longitud, new Date())
         posLunaRef.current = pos
         setLuna(pos)

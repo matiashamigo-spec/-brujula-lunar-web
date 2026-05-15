@@ -1,4 +1,7 @@
-import type { PosicionLunar } from './luna'
+export interface ObjetivoAlineacion {
+  azimut: number
+  elevacion: number
+}
 
 export interface OrientacionDispositivo {
   heading: number  // 0-360°
@@ -24,7 +27,7 @@ function normDelta(d: number): number {
   return v
 }
 
-export function calcularAlineacion(luna: PosicionLunar, disp: OrientacionDispositivo): ResultadoAlineacion {
+export function calcularAlineacion(luna: ObjetivoAlineacion, disp: OrientacionDispositivo): ResultadoAlineacion {
   const deltaAzimut    = normDelta(luna.azimut - disp.heading)
   const deltaElevacion = luna.elevacion - disp.pitch
   const scoreAz = Math.max(0, 1 - Math.abs(deltaAzimut) / AZIMUT_TOL)
